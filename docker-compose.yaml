@@ -1,0 +1,42 @@
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    networks:
+      - task_manager
+
+  db:
+    image: postgis/postgis:13-3.1
+    container_name: task_postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - task_manager
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  task_manager:
+    driver: bridge
