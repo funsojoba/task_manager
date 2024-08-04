@@ -8,10 +8,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import SignUpSerializer, LoginSerializer
 
 from Helpers.response import Response
+from rest_framework.views import APIView
 
 
 
-class SignUpView(viewsets.ViewSet):
+class SignUpView(APIView):
     @swagger_auto_schema(
         operation_description="Sign up user",
         operation_summary="Sign up user",
@@ -19,8 +20,7 @@ class SignUpView(viewsets.ViewSet):
         request_body=SignUpSerializer,
         responses=schema_example.SIGN_UP_EXAMPLE,
     )
-    @action(methods=['POST'], url_path="signup/", detail=False)
-    def sign_up(self, request):
+    def post(self, request):
         serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -28,6 +28,7 @@ class SignUpView(viewsets.ViewSet):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LoginInView(APIView):
     @swagger_auto_schema(
         operation_description="Log in user",
         operation_summary="Log in user",
@@ -35,8 +36,7 @@ class SignUpView(viewsets.ViewSet):
         request_body=LoginSerializer,
         responses=schema_example.LOGIN_EXAMPLE,
     )    
-    @action(methods=["POST"], url_path="login/", detail=False)
-    def login(self, request):
+    def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']

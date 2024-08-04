@@ -1,6 +1,27 @@
 from drf_yasg import openapi
 
 
+status_param = openapi.Parameter(
+    'status',
+    openapi.IN_QUERY,
+    description="Filter tasks by status",
+    type=openapi.TYPE_STRING
+)
+
+due_date_param = openapi.Parameter(
+    'due_date',
+    openapi.IN_QUERY,
+    description="Filter tasks by due date (YYYY-MM-DD)",
+    type=openapi.TYPE_STRING
+)
+
+search_param = openapi.Parameter(
+    'search',
+    openapi.IN_QUERY,
+    description="Search tasks by name",
+    type=openapi.TYPE_STRING
+)
+
 TASKS_EXAMPLE = {
     200: openapi.Response(
         description="Tasks retrieved successfully",

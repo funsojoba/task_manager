@@ -16,4 +16,14 @@ class CreateTaskSerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=Task.STATUS)
     assigned_to_id = serializers.CharField(required=False)
     due_date = serializers.DateTimeField()
-        
+
+
+class UpdateTaskSerializer(serializers.Serializer):
+    name = serializers.CharField(required=False)
+    description = serializers.CharField(required=False)
+    status = serializers.ChoiceField(choices=Task.STATUS, required=False)
+    assigned_to_id = serializers.CharField(required=False)
+    due_date = serializers.DateTimeField(required=False)
+
+
+

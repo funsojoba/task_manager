@@ -10,7 +10,7 @@ from Task.docs import schema_example
 
 from .models import Task
 
-from .serializers import TaskSerializer, CreateTaskSerializer
+from .serializers import TaskSerializer, CreateTaskSerializer, UpdateTaskSerializer
 
 from Helpers.response import Response
 from Helpers.validators import validate_date
@@ -60,6 +60,7 @@ class TaskViewSet(APIView):
         operation_summary="List Tasks",
         tags=["Task"],
         responses=schema_example.TASKS_EXAMPLE,
+        manual_parameters=[schema_example.status_param, schema_example.due_date_param, schema_example.search_param],
     )
     def get(self, request):
         task_status = request.GET.get("status")
@@ -118,7 +119,7 @@ class TaskDetailAPIView(APIView):
             task = Task.objects.get(pk=pk)
         except Task.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = TaskSerializer(task, data=request.data)
+        serializer = UpdateTaskSerializer(task, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
