@@ -19,6 +19,7 @@ The app is containerized using Docker, make sure you have Docker installed on yo
 ## Instructions on how to run the tests.
 
 To test the endpoints, run `make test`
+To see test coverage, run `make test-coverage`
 
 ## API documentation 
 THe documentation for this API is generate using Swagger, it has the expected responses and payload (for endpoints that require payload) for each endpoint

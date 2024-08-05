@@ -29,6 +29,14 @@ pre-commit:
 populate-history:
 	$(COMPOSE) exec $(SERVICE) python manage.py populate_history --auto
 
+test:
+	$(COMPOSE) exec $(SERVICE) python manage.py test
+
+test-coverage:
+	$(COMPOSE) run --rm $(SERVICE) coverage run manage.py test
+	$(COMPOSE) run --rm $(SERVICE) coverage report
+	$(COMPOSE) run --rm $(SERVICE) coverage html
+
 shell:
 	$(COMPOSE) exec $(SERVICE) python manage.py shell
 

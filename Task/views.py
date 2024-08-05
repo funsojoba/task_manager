@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
 from Task.docs import schema_example
+from django.contrib.auth import get_user_model
 
 
 from .models import Task
@@ -14,6 +15,7 @@ from .serializers import TaskSerializer, CreateTaskSerializer, UpdateTaskSeriali
 
 from Helpers.response import Response
 from Helpers.validators import validate_date
+
 
 
 
@@ -35,6 +37,7 @@ class TaskViewSet(APIView):
         assigned_to = None
 
         if assigned_to_id:
+            User = get_user_model()
             assigned_to = User.objects.filter(id=assigned_to).first()
             if not assigned_to:
                 return Response(
