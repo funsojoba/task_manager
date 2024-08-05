@@ -5,7 +5,9 @@ from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import SignUpSerializer, LoginSerializer
+from django.contrib.auth import get_user_model
+
+from .serializers import SignUpSerializer, LoginSerializer, UserSerializer
 
 from Helpers.response import Response
 from rest_framework.views import APIView
@@ -48,5 +50,23 @@ class LoginInView(APIView):
             return Response(data=data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def logout(self, request):
-        pass
+
+class LogoutView(APIView):
+    pass
+
+
+class UsersView(APIView):
+    @swagger_auto_schema(
+        operation_description="Get Users",
+        operation_summary="Get Users",
+        tags=["Auth"],
+    )    
+    def get(self, request):
+        User = get_user_model()
+        return Response(
+            data = {
+                "users": UserSerializer(User.objects.all(), many=True).data,
+            },
+            status=status.HTTP_200_OK
+        )
+

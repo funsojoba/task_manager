@@ -92,6 +92,7 @@ class TaskViewSet(APIView):
 
 
 class TaskDetailAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
         operation_description="Retrieve a task by ID",
@@ -135,6 +136,8 @@ class TaskDetailAPIView(APIView):
         try:
             task = Task.objects.get(pk=pk)
         except Task.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(data={"task": "task does not exist"}, status=status.HTTP_404_NOT_FOUND)
         task.delete()
-        return Response(data={},status=status.HTTP_204_NO_CONTENT)
+        return Response(data={
+            "task": "task deleted successfully"
+        },status=status.HTTP_204_NO_CONTENT)
