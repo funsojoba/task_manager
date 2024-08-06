@@ -12,7 +12,6 @@ class TestAuthView(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create_user(username='testuser', password='testpass')
-        # self.client.force_authenticate(user=self.user)
         
     
     def test_signup_user(self):

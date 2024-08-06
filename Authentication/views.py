@@ -52,7 +52,23 @@ class LoginInView(APIView):
 
 
 class LogoutView(APIView):
-    pass
+    permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_description="Log out user",
+        operation_summary="Log out user",
+        tags=["Auth"],
+        responses={204: 'No Content', 400: 'Bad Request'},
+    )
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist() 
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class UsersView(APIView):

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # installed apps
     'drf_yasg',
+    'rest_framework_simplejwt.token_blacklist',
 
     # local apps
     'Authentication',
